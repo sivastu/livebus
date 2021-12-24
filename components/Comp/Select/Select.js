@@ -1,12 +1,15 @@
 import React,{useState} from 'react'
-import {StyleSheet, Text, View, StatusBar,Dimensions,Image,TouchableOpacity } from 'react-native'
+import {StyleSheet, TextInput,Alert, Modal,Pressable,Text, View, StatusBar,Dimensions,Image,TouchableOpacity } from 'react-native'
 import {Column as Col, Row} from 'react-native-flexbox-grid';
 
 const wi = Dimensions.get('window').width;
 const hi = Dimensions.get('window').height
 
 const Select =( props)=>{
-  
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible2, setModalVisible2] = useState(false);
+  const  [text,onChangeText]=useState('')
+  const  [pwd,onpwd]=useState('')
   
   let imglink= 'https://www.w3schools.com/images/w3schools_green.jpg'
   
@@ -37,16 +40,71 @@ const Select =( props)=>{
             onPress={() => {
               console.log('presed')
             }} >
-            <h6  style={{marginRight:20}}>Login</h6>
+            <h6  style={{marginRight:20}} onClick={() => setModalVisible(true)}>Login</h6>
           </TouchableOpacity>
         </Col>
         <Col style={styles.btnop} sm={6} md={6} lg={3}>
-          <TouchableOpacity style={styles.btnop}
+          <TouchableOpacity onClick={() => setModalVisible2(true)} style={styles.btnop}
             onPress={() => {
               console.log('presed')
             }} >
             <h6>Register</h6>
           </TouchableOpacity>
+          <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+         <Pressable
+              style={{color:'black'}}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={styles.textStyle}>close</Text>
+            </Pressable>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Login</Text>
+             <Text>Mail Id</Text>
+            <TextInput
+        style={styles.input}
+        onChangeText={onChangeText}
+        value={text}
+      />
+       <Text>Password</Text>
+        <TextInput
+        style={styles.input}
+        onChangeText={onChangeText}
+        value={text}
+      />
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={styles.textStyle}>Submit</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+        <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible2}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible2(!modalVisible2);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Register</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible2 (!modalVisible2)}>
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
         </Col>
       </Row>
       </Row>
@@ -112,5 +170,55 @@ const styles = StyleSheet.create({
       marginRight:'auto',
       marginBottom:'auto',
       marginLeft:'auto',
-    }
+    },
+    centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    paddingTop:20,
+    paddingBottom:30,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    width:wi-30,
+    height:hi-40,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.75,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+  },
   })
